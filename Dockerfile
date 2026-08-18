@@ -125,9 +125,12 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Override at runtime with -e or docker-compose environment:.
 ENV CLIMATE_SERVICE_CONFIG=/app/climate-service.yaml
 
+# Create data folder and assign proper permission
+RUN mkdir -p /app/data && chown -R ocs:ocs /app/data
 # data/ is volume-mounted at runtime — downloaded Zarr stores
 # should not live inside the container image.
 VOLUME ["/app/data", "/app/climate-service.yaml", "/home/ocs/.ecmwfdatastoresrc"]
+RUN mkdir -p /app/data && chown -R ocs:ocs /app/data
 
 USER ocs
 
