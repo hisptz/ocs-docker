@@ -127,7 +127,7 @@ ENV CLIMATE_SERVICE_CONFIG=/app/climate-service.yaml
 
 # data/ is volume-mounted at runtime — downloaded Zarr stores
 # should not live inside the container image.
-VOLUME ["/app/data", "/app/climate-service.yaml"]
+VOLUME ["/app/data", "/app/climate-service.yaml", "/home/ocs/.ecmwfdatastoresrc"]
 
 USER ocs
 
