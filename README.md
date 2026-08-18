@@ -1,6 +1,6 @@
-# South Sudan Climate Service
+# Open Climate Service Docker
 
-A climate data API service for South Sudan, built on top of the [open-climate-service](https://github.com/dhis2/open-climate-service) framework. It exposes climate datasets (temperature, precipitation, indices, etc.) via a REST/OpenEO-compatible API for the South Sudan geographic extent.
+A generic climate data API service, built on top of the [open-climate-service](https://github.com/dhis2/open-climate-service) framework. It exposes climate datasets (temperature, precipitation, indices, etc.) via a REST/OpenEO-compatible API for the South Sudan geographic extent.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ Install dependencies:
 make install
 ```
 
-Configure the service by editing `climate-service.yaml`:
+Configure the service by editing `climate-service.yaml`, South Sudan is provided as an example:
 
 ```yaml
 id: south-sudan-climate-service
@@ -49,18 +49,18 @@ The API will be available at `http://localhost:8000`.
 Build and run with Docker:
 
 ```bash
-docker build -t south-sudan-climate-service .
+docker build -t ocs .
 
 docker run -p 8000:8000 \
   -v $(pwd)/data:/app/data \
   -e CLIMATE_SERVICE_CONFIG=/app/climate-service.yaml \
-  south-sudan-climate-service
+  ocs
 ```
 
 A pre-built image is published to the GitHub Container Registry on every push to `main`:
 
 ```bash
-docker pull ghcr.io/hisptz/south-sudan-climate-service:latest
+docker pull ghcr.io/hisptz/ocs:latest
 ```
 
 ## Project Structure
