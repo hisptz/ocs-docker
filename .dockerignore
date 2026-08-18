@@ -1,0 +1,9 @@
+a.venv/
+data/
+.env
+.idea/
+__pycache__/
+*.pyc
+.DS_Store
+Dockerfile
+.dockerignore
