@@ -49,7 +49,7 @@ The API will be available at `http://localhost:8000`.
 Build and run with Docker:
 
 ```bash
-docker build -t ocs .
+docker build -t hisptz/ocs .
 
 docker run -p 8000:8000 \
   -v $(pwd)/data:/app/data \
