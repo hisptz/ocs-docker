@@ -56,29 +56,24 @@ ENV UV_COMPILE_BYTECODE=1
 
 WORKDIR /app
 
-# ── Dependency installation layer ──────────────────────────────
-# Mount pyproject.toml and uv.lock without COPY so this layer is
-# only invalidated when those two files change, not when your
-# config yaml or plugins change.
-# --no-install-project: install transitive deps but not the project
-# itself (there is no project to install — package = false).
-# --locked: assert uv.lock is consistent with pyproject.toml.
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --locked --no-install-project
+COPY pyproject.toml uv.lock ./
 
-# ── Copy the rest of the instance files ────────────────────────
-# This layer is invalidated frequently (config changes, new plugins),
-# but the dependency layer above is already cached.
-COPY pyproject.toml ./
-COPY uv.lock ./
+# ── Cache-bust on new open-climate-service commits ─────────────
+# open-climate-service is installed straight from its GitHub `main`
+# branch (see pyproject.toml / uv.lock). Docker's ADD instruction for
+# a remote URL re-checks the response (ETag/Last-Modified) on every
+# build and busts the layer cache — and everything after it — when
+# the resource changed, i.e. whenever `main` gets new commits. This
+# is what forces the steps below to actually re-run instead of being
+# served from a stale cached layer.
+ADD https://api.github.com/repos/dhis2/open-climate-service/commits/main /tmp/open-climate-service-head.json
 
-# Final sync. Since package = false in pyproject.toml there is
-# nothing more to "install", but this validates the environment
-# is complete and consistent with the lockfile.
+# Re-resolve open-climate-service to the current tip of `main` (the
+# committed uv.lock may pin an older commit), then install. --locked
+# still guards the rest of the dependency tree against drift.
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked
+    uv lock --upgrade-package open-climate-service \
+    && uv sync --locked
 
 
 # ============================================================
