@@ -1,0 +1,9 @@
+id: lao-pdr             # unique identifier for this instance
+name: Lao PDR Climate Service           # display name shown in the web UI
+
+extent:
+  name: Lao
+  bbox: [ 100.115988, 13.881091, 107.564525, 22.464753 ]    # [xmin, ymin, xmax, ymax] in WGS84
+  country_code: LAO                   # ISO 3166-1 alpha-3, required for WorldPop
+
+data_dir: ./data
