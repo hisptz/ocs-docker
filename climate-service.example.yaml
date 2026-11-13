@@ -7,3 +7,16 @@ extent:
   country_code: LAO                   # ISO 3166-1 alpha-3, required for WorldPop
 
 data_dir: ./data
+
+# Optional: post to a webhook (Slack/Mattermost incoming-webhook URLs work as-is) when a
+# scheduled sync or a pipeline starts failing, and when it recovers.
+# notifications:
+#   webhook_url: ${OCS_WEBHOOK_URL}
+
+# Optional: DHIS2 connections that pipelines deliver to. Pipelines are created on the
+# Pipelines page or via POST /pipelines. Values here must be literal (no ${...}); the
+# token is read from the env var named in token_env.
+# dhis2_connections:
+#   - id: national-hmis
+#     url: https://hmis.example.org/dhis
+#     token_env: DHIS2_IMPORT_TOKEN
